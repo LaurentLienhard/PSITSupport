@@ -64,7 +64,7 @@ $allModuleFunctions = &$mut {Get-Command -Module $args[0] -CommandType Function 
         $functionFile = Get-ChildItem -path $SourcePath -Recurse -Include "$($function.Name).ps1"
         Describe "Quality for $($function.Name)" -Tags 'TestQuality' {
             It "$($function.Name) has a unit test" {
-                Get-ChildItem "tests\" -recurse -include "$($function.Name).Tests.ps1" | Should -Not -BeNullOrEmpty
+                Get-ChildItem "tests\" -recurse -include "$($function.Name).Tests.ps1" | Should Not BeNullOrEmpty
             }
 
             if ($scriptAnalyzerRules) {
@@ -88,24 +88,24 @@ $allModuleFunctions = &$mut {Get-Command -Module $args[0] -CommandType Function 
             $FunctionHelp = $ParsedFunction.GetHelpContent()
 
             It 'Has a SYNOPSIS' {
-                $FunctionHelp.Synopsis | should -not -BeNullOrEmpty
+                $FunctionHelp.Synopsis | should not BeNullOrEmpty
             }
 
             It 'Has a Description, with length > 40' {
-                $FunctionHelp.Description.Length | -Should -beGreaterThan 40
+                $FunctionHelp.Description.Length | Should beGreaterThan 40
             }
 
             It 'Has at least 1 example' {
-                $FunctionHelp.Examples.Count | -Should -beGreaterThan 0
-                $FunctionHelp.Examples[0] | -Should match ([regex]::Escape($function.Name))
-                $FunctionHelp.Examples[0].Length | -Should -BeGreaterThan ($function.Name.Length + 10)
+                $FunctionHelp.Examples.Count | Should beGreaterThan 0
+                $FunctionHelp.Examples[0] | Should match ([regex]::Escape($function.Name))
+                $FunctionHelp.Examples[0].Length | Should BeGreaterThan ($function.Name.Length + 10)
             }
 
             $parameters = $ParsedFunction.Body.ParamBlock.Parameters.name.VariablePath.Foreach{ $_.ToString() }
             foreach ($parameter in $parameters) {
                 It "Has help for Parameter: $parameter" {
-                    $FunctionHelp.Parameters.($parameter.ToUpper()) | -Should -Not -BeNullOrEmpty
-                    $FunctionHelp.Parameters.($parameter.ToUpper()).Length | -Should -BeGreaterThan 25
+                    $FunctionHelp.Parameters.($parameter.ToUpper()) | Should Not BeNullOrEmpty
+                    $FunctionHelp.Parameters.($parameter.ToUpper()).Length | Should BeGreaterThan 25
                 }
             }
         }
