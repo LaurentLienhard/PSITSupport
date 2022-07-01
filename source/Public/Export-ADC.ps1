@@ -36,6 +36,7 @@ function Export-ADC {
             if ($User.mobile -like "0*") {
                 $user.mobile = $user.mobile -replace "^0", "(+33)"
             }
+            $User.Company = $User.company.ToUpper()
             $csv_data = $csv_data + "$($User.Mail),$($User.GivenName),$($User.SurName),$($User.mobile),$($Language),$($TimeZone),$($MailType),$($User.Company),$($User.extensionAttribute10),$($Elearning)`r`n"
         }
     }
@@ -44,3 +45,5 @@ function Export-ADC {
         $csv_data | Out-File -FilePath $CSVFile
     }
 }
+
+Export-ADC
