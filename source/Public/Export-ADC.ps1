@@ -45,5 +45,3 @@ function Export-ADC {
         $csv_data | Out-File -FilePath $CSVFile
     }
 }
-
-Export-ADC
